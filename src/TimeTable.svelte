@@ -1,6 +1,24 @@
 <script>
-import dataset from './dataset';
+import { timetable } from "./store";
 
+function locate(link) {
+  window.open(link);
+}
+
+function maxLength() {
+  if ($timetable) {
+
+    return [
+      $timetable["monday"].length, 
+      $timetable["tuesday"].length, 
+      $timetable["wednesday"].length, 
+      $timetable["thursday"].length, 
+      $timetable["friday"].length,
+    ].reduce((prev, curr) => prev < curr ? curr : prev);
+  } else {
+    return 0;
+  }
+}
 </script>
 
 <table>
@@ -15,15 +33,19 @@ import dataset from './dataset';
     </tr>
   </thead>
   <tbody>
-  {#each {length: 6} as _, i}
-    <tr>
-      <td class="time-index">{i + 1}</td>
-      {#each ["monday", "tuesday", "wednesday", "thursday", "friday"] as day}
-        <td on:click={() => openLink(dataset[day][i + 1]["link"])}>
-          {dataset[day][i + 1]["name"]}
-        </td>
-      {/each}
-    {/each}
+    {#if $timetable}
+      {#each {length: maxLength()} as _, i}
+        <tr>
+          <td class="time-index">{i + 1}</td>
+          {#each ["monday", "tuesday", "wednesday", "thursday", "friday"] as day}
+            {#if $timetable[day][i]}
+              <td on:click={() => locate($timetable[day][i]["link"])}>
+                {$timetable[day][i]["name"]}
+              </td>
+            {/if}
+          {/each}
+        {/each}
+    {/if}
   </tbody>
 </table>
 

@@ -1,17 +1,21 @@
 <script>
+import Header from "./Header.svelte";
 import TimeTable from "./TimeTable.svelte";
 
 </script>
 
 <main>
-	<h2>학급 시간표</h2>
-	<TimeTable />
+	<div>
+		<h2>학급 시간표</h2>
+		<Header />
+		<TimeTable />
+	</div>
 </main>
 
 <style>
 	main {
-		display: flex;
-		align-items: center;
-		flex-direction: column;
+		display: grid;
+		place-items: center;
+		height: 80vh;
 	}
 </style>
